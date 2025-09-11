@@ -1,0 +1,68 @@
+def forgot_password():  
+    if forgot_txtbox2.value == "":
+         info("Error", "Please enter your email")
+    
+    elif forgot_txtbox3.value == "":
+         info("Error", "Please enter your new password")
+    elif forgot_txtbox4.value == "":
+         info("Error", "Please confirm your newpassword")
+    elif forgot_txtbox3.value != forgot_txtbox4.value:
+        info("Error", "Passwords do not match")
+    elif "@" not in forgot_txtbox2.value:
+        info("Error", "Email does not exsist")
+
+
+    else:
+        query = "UPDATE User SET user_password = ? WHERE user_email = ?"
+        execute_sql(database_file, query, (forgot_txtbox3.value, forgot_txtbox2.value)) # SQL query to update password to new one inputted by user
+        info("Success", "Password changed successfully")
+
+
+
+
+
+#Change password window
+
+forgot_window = Window(app, title="Reset pasword", height=250, bg="#FDE74C")
+forgot_box = Box(forgot_window, layout="grid")
+forgotblank0 = Text(forgot_box, text="            ", grid=[3,0])
+forgotblank1 = Text(forgot_box, text="            ", grid=[3,0])
+forgotblank2 = Text(forgot_box, text="            ", grid=[3,0])
+forgotblank3 = Text(forgot_box, text="            ", grid=[3,1])
+forgotblank4 = Text(forgot_box, text="            ", grid=[3,0])
+forgot_txt2 = Text(forgot_box, text="Enter your email", align="left", grid=[2,5], size=15)
+forgot_txtbox2 = TextBox(forgot_box, hide_text=True, grid=[3,5], width=30)
+    
+forgot_box2 = Box(forgot_window, layout="grid")
+forgotblank5 = Text(forgot_box, text="            ", grid=[5,0])
+forgotblank6 = Text(forgot_box, text="            ", grid=[5,0])
+forgotblank7 = Text(forgot_box, text="            ", grid=[5,0])
+forgotblank8 = Text(forgot_box, text="            ", grid=[5,1])
+forgotblank9 = Text(forgot_box, text="            ", grid=[5,1])
+forgot_txt3 = Text(forgot_box, text="Enter new password", align="left", grid=[2,7], size=15)
+forgot_txtbox3 = TextBox(forgot_box, hide_text=True, grid=[3,7], width=30)
+
+forgot_box3 = Box(forgot_window, layout="grid")
+forgotblank5 = Text(forgot_box, text="            ", grid=[7,0])
+forgotblank6 = Text(forgot_box, text="            ", grid=[7,0])
+forgotblank7 = Text(forgot_box, text="            ", grid=[7,0])
+forgotblank8 = Text(forgot_box, text="            ", grid=[7,1])
+forgotblank9 = Text(forgot_box, text="            ", grid=[7,1])
+forgot_txt4 = Text(forgot_box, text="Confirm new password", align="left", grid=[2,9], size=15)
+forgot_txtbox4 = TextBox(forgot_box, hide_text=True, grid=[3,9], width=30)
+
+
+forgot_create_box = Box(forgot_window, width = "fill", align="top",)
+forgot_create_button = PushButton(forgot_create_box, text="Confirm", align="top", command=forgot_password)
+forgot_create_button.bg = "#5B7C99"
+
+
+
+forgot_exit_box = Box(forgot_window, width="fill", align="bottom")
+forgot_exit_button = PushButton(forgot_exit_box, text="Back", align="bottom", command=close_forgot_window)
+forgot_exit_button.bg = "#5B7C99"
+
+
+
+
+forgot_window.hide() # Hide until needed
