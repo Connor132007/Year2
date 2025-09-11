@@ -1,0 +1,24 @@
+########################
+##  navigation procedures            
+##########################
+
+def close_forgot_window():
+    forgot_window.hide()
+    app.show()
+
+
+def close_signup_window():
+    sign_window.hide()
+
+
+def open_password():
+    app.hide()
+    forgot_window.show()
+
+
+def Open_Signup():
+    sign_window.show()
+
+
+##
+app.display() # Display app on startup
