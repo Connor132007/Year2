@@ -1,3 +1,24 @@
+
+################################################################################################
+#                   PROGRAM NAME: ???????                                                      #
+#                   FIRST CREATED: 25/06/2025                                                  #
+#                   PROGRAMMER: Connor Graham                                                  #
+#                                                                                              #
+################################################################################################
+#                   CHANGE LOG:
+#                   +--------------------------------------------------------------------------+
+#                   | 25/06/2025    V1       DATABASE/LOGIN/SIGNUP CREATED             CG      |
+#                   | 06/07/2025    V2       DASHBOARD/???????? CREATED                CG      |
+#                   |                                                                          |
+#                   +--------------------------------------------------------------------------+
+#
+#
+
+
+
+
+
+
 from guizero import App, Window, PushButton, Text, Box, TextBox, Picture, info # Guizero imports to create front end
 
 import sqlite3
@@ -36,3 +57,31 @@ insert into Consultation (consultation_date, consultation_timeslot, consultation
 
 
 """
+
+
+
+if os.path.exists(database_file):
+   os.remove(database_file) # Removes database each time program starts for test purposes
+#
+conn = sqlite3.connect(database_file) 
+cursor = conn.cursor()
+cursor.executescript(sql)
+conn.commit() # Initialising SQL integration 
+#
+#
+def query_database(database, query, params=()):
+	# Function to query the database
+    with sqlite3.connect(database) as conn:
+        cur = conn.cursor()
+        cur.execute(query, params)
+        rows = cur.fetchall()
+    return rows
+#
+#
+def execute_sql(database, sql_statement, params=()):
+	# Function to execute SQL statements
+    with sqlite3.connect(database) as conn:
+        cur = conn.cursor()
+        cur.execute(sql_statement, params)
+        conn.commit()
+    return cur.lastrowid
