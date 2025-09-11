@@ -27,7 +27,7 @@ import os
 import os.path # OS import to edit system files
 
 
-
+database_file = 'myDB.db'
 
 
 # SQL creation and inserting test data
