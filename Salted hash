@@ -1,0 +1,51 @@
+import hashlib # Needed to hash the password
+import secrets # For a salted hash
+
+
+
+def hash_password_with_salt(password):
+    salt = secrets.token_hex(32)  # 64-character hex salt
+    salted_pw = salt + password
+    hashed_pw = hashlib.sha512(salted_pw.encode('utf-8')).hexdigest()
+    return hashed_pw, salt
+
+
+
+# Sign up hash 
+hashed_pw, salt = hash_password_with_salt(password)
+query = "INSERT INTO User (user_name, user_firstname, user_surname, user_password, user_salt, user_email) VALUES (?, ?, ?, ?, ?, ?)"
+execute_sql(database_file, query, (username, firstname, surname, hashed_pw, salt, email))
+
+
+# log in  hash:
+def login_user():
+    # Procedure to validate login inputs and verify salted password
+    global user_LoggedIn  # Global variable to track logged-in user
+
+    if login_username.value == "":
+        info("Error", "You must enter a valid username")
+    elif login_pw.value == "":
+        info("Error", "You must enter a valid password")
+    else:
+        # Retrieve stored hash and salt for the given username
+        query = "SELECT userID, user_password, user_salt FROM User WHERE user_name = ?"
+        rows = query_database(database_file, query, (login_username.value,))
+
+        if len(rows) == 0:
+            info("Error", "Invalid Username")
+        else:
+            stored_hash = rows[0][1]
+            stored_salt = rows[0][2]
+            input_hash = hashlib.sha512((stored_salt + login_pw.value).encode('utf-8')).hexdigest()
+
+            if input_hash != stored_hash:
+                info("Error", "Invalid Password")
+            else:
+                user_LoggedIn = rows[0][0]
+                info("Success", "Logging in")
+
+# forgot password hash:
+hashed_pw, salt = hash_password_with_salt(forgot_txtbox3.value)
+query = "UPDATE User SET user_password = ?, user_salt = ? WHERE user_email = ?"
+execute_sql(database_file, query, (hashed_pw, salt, forgot_txtbox2.value))
+
